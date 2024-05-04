@@ -1,5 +1,7 @@
-export class Hello {
-  public sayHello() {
-    return 'hello, world!';
-  }
-}
+// Copyright (c) 2024 Tim Hahn
+
+export {
+  HTTPSClient,
+  HTTPSRequest,
+  HTTPSResponse,
+} from "./components/https-client.js";
