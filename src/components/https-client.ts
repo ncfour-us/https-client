@@ -9,7 +9,11 @@ export interface HTTPSRequest {
 
 export interface HTTPSResponse {
   body: string;
-  metadata: any;
+  metadata: {
+    statusCode: number;
+    statusMessage: string;
+    headers: object;
+  };
 }
 
 export class HTTPSClient {
@@ -18,12 +22,20 @@ export class HTTPSClient {
   ): Promise<HTTPSResponse> {
     const responsePromise = new Promise<HTTPSResponse>((resolve, reject) => {
       let response: HTTPSResponse = {
-        metadata: undefined,
+        metadata: {
+          statusCode: 404,
+          statusMessage: "",
+          headers: {},
+        },
         body: "",
       };
 
       const req = https.request(reqOptions.options, (res) => {
-        response.metadata = res;
+        response.metadata.statusCode = res.statusCode ? res.statusCode : 404;
+        response.metadata.statusMessage = res.statusMessage
+          ? res.statusMessage
+          : "";
+        response.metadata.headers = res.headers;
 
         res.on("data", (d) => {
           response.body = response.body + d;
