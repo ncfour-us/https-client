@@ -234,7 +234,7 @@
           "exec": "npm install"
         },
         {
-          "exec": "npm update @jest/globals @ncfour/projen-utils @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser constructs eslint-config-prettier eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint jest jest-junit prettier projen standard-version ts-jest ts-node tsx typescript"
+          "exec": "npm update @jest/globals @ncfour/projen-utils @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser constructs eslint-config-prettier eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint jest jest-junit prettier projen standard-version ts-jest ts-node tsx typescript @ncfour/logging"
         },
         {
           "exec": "npx projen"

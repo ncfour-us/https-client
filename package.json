@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
-    "@ncfour/projen-utils": "file:../projen-utils/dist/js/projen-utils@0.0.0.jsii.tgz",
+    "@ncfour/projen-utils": "file:/home/tjh/Projects/repos/ncfour/projen-utils/dist/js/projen-utils@0.0.0.jsii.tgz",
     "@types/jest": "^29.5.12",
     "@types/node": "^18",
     "@typescript-eslint/eslint-plugin": "^6",
@@ -49,8 +49,11 @@
     "standard-version": "^9",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
-    "tsx": "^4.7.3",
+    "tsx": "^4.9.1",
     "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@ncfour/logging": "file:/home/tjh/Projects/repos/ncfour/logging/dist/js/ncfour-logging-0.0.0.tgz"
   },
   "engines": {
     "node": ">= 18.0.0"
