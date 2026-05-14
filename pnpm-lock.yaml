@@ -576,7 +576,7 @@ packages:
     engines: {node: '>= 18.0.0'}
 
   '@ncfour/projen-utils@file:../projen-utils/dist/js/projen-utils@0.0.0.jsii.tgz':
-    resolution: {integrity: sha512-c6y1YN+0PMGnqPzOS86HkJxLWDn2q97lpPQn+kPqkVzxB7Jl/1tsiMbyyI+78U+x/DBH672h7t8PjmQJ/c1ImQ==, tarball: file:../projen-utils/dist/js/projen-utils@0.0.0.jsii.tgz}
+    resolution: {integrity: sha512-goYIoQSHew2ByPQhAMV8548xCsruaxE0/4NAigxvdDSiJF8wygasLcUYGbn3IXSXEZqb4jbdnFKHf7x5lbEBqA==, tarball: file:../projen-utils/dist/js/projen-utils@0.0.0.jsii.tgz}
     version: 0.0.0
     peerDependencies:
       constructs: ^10.6.0
