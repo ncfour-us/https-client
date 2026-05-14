@@ -1,12 +1,13 @@
 import { TypeScriptESMProject } from "@ncfour/projen-utils";
 import { javascript } from "projen";
+
 const project = new TypeScriptESMProject({
   authorName: "Tim Hahn",
   authorEmail: "hahntj@gmail.com",
 
   defaultReleaseBranch: "main",
   name: "https-client",
-  packageManager: javascript.NodePackageManager.NPM,
+  packageManager: javascript.NodePackageManager.PNPM,
   projenrcTs: true,
 
   repository: "https://github.com/hahntj/ncfour/https-client.git",
