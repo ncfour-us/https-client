@@ -1,40 +1,42 @@
-import { TypeScriptESMProject } from "@ncfour/projen-utils";
-import { javascript } from "projen";
+import { TypeScriptESMProject, RepoBuildPackageModel } from '@ncfour-us/projen-utils';
+import { javascript } from 'projen';
 
 const project = new TypeScriptESMProject({
-  authorName: "Tim Hahn",
-  authorEmail: "hahntj@gmail.com",
+  authorName: 'Tim Hahn',
+  authorEmail: 'hahntj@gmail.com',
 
-  defaultReleaseBranch: "main",
-  name: "https-client",
+  defaultReleaseBranch: 'main',
+  name: 'https-client',
   packageManager: javascript.NodePackageManager.PNPM,
   projenrcTs: true,
 
-  repository: "https://github.com/hahntj/ncfour/https-client.git",
+  repository: 'https://github.com/hahntj/ncfour/https-client.git',
 
   // set up the package name in package.json
-  packageName: "@ncfour/https-client",
+  packageName: '@ncfour-us/https-client',
 
   // set up the project with a LICENSE and copyright info
-  license: "MIT",
-  copyrightOwner: "Tim Hahn",
-  copyrightPeriod: "2024",
+  license: 'MIT',
+  copyrightOwner: 'Tim Hahn',
+  copyrightPeriod: '2024',
 
   // eslint options
   eslintOptions: {
-    dirs: ["src"],
+    dirs: ['src'],
     prettier: true,
   },
 
-  devDeps: [
-    "@ncfour/projen-utils@file:/home/tjh/Projects/repos/ncfour/projen-utils/dist/js/projen-utils@0.0.0.jsii.tgz",
-    "@jest/globals",
-  ],
-  deps: [
-    "@ncfour/logging@file:/home/tjh/Projects/repos/ncfour/logging/dist/js/ncfour-logging-0.0.0.tgz",
-  ],
+  devDeps: ['@ncfour-us/projen-utils', '@jest/globals'],
+  deps: ['@ncfour-us/logging@file:/home/tjh/.tjh-packages/ncfour-us-logging-0.0.2.tgz'],
   // deps: [],                /* Runtime dependencies of this module. */
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
   // packageName: undefined,  /* The "name" in package.json. */
+
+  eslintFlatConfig: true,
+  prettierFlatConfig: true,
+  precommitConfig: true,
+
+  repoBuildPackageModel: RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY,
+  localPackageArchiveDir: '~/.tjh-packages',
 });
 project.synth();

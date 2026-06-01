@@ -1,7 +1,7 @@
 // Copyright (c) 2024 Tim Hahn
 
-import * as https from "node:https";
-import { Logger, LogLevel } from "@ncfour/logging";
+import * as https from 'node:https';
+import { ILogger, createLogger } from '@ncfour-us/logging';
 
 export interface HTTPSRequest {
   body: string;
@@ -18,13 +18,15 @@ export interface HTTPSResponse {
 }
 
 export class HTTPSClient {
-  public static async request(
-    reqOptions: HTTPSRequest,
-  ): Promise<HTTPSResponse> {
-    const logger: Logger = Logger.getLogger("HTTPSClient");
+  public static async request(reqOptions: HTTPSRequest): Promise<HTTPSResponse> {
+    const logger: ILogger = await createLogger('simple', {
+      name: 'HTTPSClient',
+      level: 'debug',
+      json: false,
+    });
 
     logger.log(
-      LogLevel.DEBUG,
+      'debug',
       `request body.length: ${reqOptions.body.length}, options: ${JSON.stringify(reqOptions.options, null, 2)}`,
     );
 
@@ -32,26 +34,24 @@ export class HTTPSClient {
       let response: HTTPSResponse = {
         metadata: {
           statusCode: 404,
-          statusMessage: "",
+          statusMessage: '',
           headers: {},
         },
-        body: "",
+        body: '',
       };
 
       const req = https.request(reqOptions.options, (res) => {
         response.metadata.statusCode = res.statusCode ? res.statusCode : 404;
-        response.metadata.statusMessage = res.statusMessage
-          ? res.statusMessage
-          : "";
+        response.metadata.statusMessage = res.statusMessage ? res.statusMessage : '';
         response.metadata.headers = res.headers;
 
-        res.on("data", (d) => {
+        res.on('data', (d) => {
           response.body = response.body + d;
         });
 
-        res.on("end", () => {
+        res.on('end', () => {
           logger.log(
-            LogLevel.DEBUG,
+            'debug',
             `response body.length:${response.body.length}, metadata: ${JSON.stringify(response.metadata, null, 2)}`,
           );
 
@@ -59,20 +59,17 @@ export class HTTPSClient {
         });
       });
 
-      req.on("error", (e) => {
+      req.on('error', (e) => {
         reject(e);
       });
 
       // write any body provided
       if (
         reqOptions.body.length > 0 &&
-        reqOptions.options.method !== "GET" &&
-        reqOptions.options.method !== "OPTIONS"
+        reqOptions.options.method !== 'GET' &&
+        reqOptions.options.method !== 'OPTIONS'
       ) {
-        logger.log(
-          LogLevel.DEBUG,
-          `writing body, body.length:${reqOptions.body.length}`,
-        );
+        logger.log('debug', `writing body, body.length:${reqOptions.body.length}`);
 
         req.write(reqOptions.body);
       }

@@ -20,7 +20,10 @@ dist
 /.idea/
 /.projenrc.js
 tsconfig.tsbuildinfo
-/.eslintrc.json
+eslint.config.ts
+prettier.config.ts
+.pre-commit-config.yaml
+CHANGELOG.md
 /.gitattributes
 /.projenrc.ts
 /projenrc

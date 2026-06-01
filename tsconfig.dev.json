@@ -35,7 +35,9 @@
     "src/**/*.ts",
     "test/**/*.ts",
     ".projenrc.ts",
-    "projenrc/**/*.ts"
+    "projenrc/**/*.ts",
+    "eslint.config.ts",
+    "prettier.config.ts"
   ],
   "exclude": [
     "node_modules"

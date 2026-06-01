@@ -1,12 +1,27 @@
 {
   "dependencies": [
     {
+      "name": "@eslint/compat",
+      "type": "build"
+    },
+    {
+      "name": "@eslint/eslintrc",
+      "type": "build"
+    },
+    {
+      "name": "@eslint/js",
+      "type": "build"
+    },
+    {
       "name": "@jest/globals",
       "type": "build"
     },
     {
-      "name": "@ncfour/projen-utils",
-      "version": "file:/home/tjh/Projects/repos/ncfour/projen-utils/dist/js/projen-utils@0.0.0.jsii.tgz",
+      "name": "@ncfour-us/projen-utils",
+      "type": "build"
+    },
+    {
+      "name": "@stylistic/eslint-plugin",
       "type": "build"
     },
     {
@@ -15,17 +30,15 @@
     },
     {
       "name": "@types/node",
-      "version": "^18",
+      "version": "^24",
       "type": "build"
     },
     {
       "name": "@typescript-eslint/eslint-plugin",
-      "version": "^8",
       "type": "build"
     },
     {
       "name": "@typescript-eslint/parser",
-      "version": "^8",
       "type": "build"
     },
     {
@@ -39,7 +52,7 @@
       "type": "build"
     },
     {
-      "name": "eslint-config-prettier",
+      "name": "eslint",
       "type": "build"
     },
     {
@@ -51,12 +64,7 @@
       "type": "build"
     },
     {
-      "name": "eslint-plugin-prettier",
-      "type": "build"
-    },
-    {
-      "name": "eslint",
-      "version": "^9",
+      "name": "globals",
       "type": "build"
     },
     {
@@ -66,6 +74,10 @@
     {
       "name": "jest-junit",
       "version": "^17",
+      "type": "build"
+    },
+    {
+      "name": "jiti",
       "type": "build"
     },
     {
@@ -93,8 +105,8 @@
       "type": "build"
     },
     {
-      "name": "@ncfour/logging",
-      "version": "file:/home/tjh/Projects/repos/ncfour/logging/dist/js/ncfour-logging-0.0.0.tgz",
+      "name": "@ncfour-us/logging",
+      "version": "file:/home/tjh/.tjh-packages/ncfour-us-logging-0.0.2.tgz",
       "type": "runtime"
     }
   ],

@@ -106,14 +106,13 @@
     },
     "eslint": {
       "name": "eslint",
-      "description": "Runs eslint against the codebase",
+      "description": "custom eslint task to run against code base",
       "env": {
-        "ESLINT_USE_FLAT_CONFIG": "false",
         "NODE_NO_WARNINGS": "1"
       },
       "steps": [
         {
-          "exec": "eslint --ext .ts,.tsx --fix --no-error-on-unmatched-pattern $@ src test build-tools projenrc .projenrc.ts",
+          "exec": "eslint --ext .ts,.tsx --fix --no-error-on-unmatched-pattern $@ src test build-tools projenrc .projenrc.ts eslint.config.ts",
           "receiveArgs": true
         }
       ]
@@ -160,6 +159,29 @@
       "name": "pre-compile",
       "description": "Prepare the project for compilation"
     },
+    "publish:git": {
+      "name": "publish:git",
+      "description": "Prepends the release changelog onto the project changelog, creates a release commit, and tags the release",
+      "env": {
+        "CHANGELOG": "dist/changelog.md",
+        "RELEASE_TAG_FILE": "dist/releasetag.txt",
+        "PROJECT_CHANGELOG_FILE": "CHANGELOG.md",
+        "VERSION_FILE": "dist/version.txt"
+      },
+      "steps": [
+        {
+          "builtin": "release/update-changelog"
+        },
+        {
+          "builtin": "release/tag-version"
+        },
+        {
+          "exec": "cp dist/js/ncfour-us-https-client-$(cat dist/version.txt).tgz ~/.tjh-packages/.",
+          "name": "copy package to ~/.tjh-packages folder"
+        }
+      ],
+      "condition": "git log --oneline -1 | grep -qv \"chore(release):\""
+    },
     "release": {
       "name": "release",
       "description": "Prepare a release from \"main\" branch",
@@ -181,6 +203,9 @@
         },
         {
           "exec": "git diff --ignore-space-at-eol --exit-code"
+        },
+        {
+          "spawn": "publish:git"
         }
       ]
     },
@@ -234,13 +259,13 @@
       },
       "steps": [
         {
-          "exec": "pnpm dlx npm-check-updates@20 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@jest/globals,@types/jest,eslint-config-prettier,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,jest,prettier,projen,ts-jest,ts-node,tsx,typescript"
+          "exec": "pnpm dlx npm-check-updates@20 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@eslint/compat,@eslint/eslintrc,@eslint/js,@jest/globals,@ncfour-us/projen-utils,@stylistic/eslint-plugin,@types/jest,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,eslint,eslint-import-resolver-typescript,eslint-plugin-import,globals,jest,jiti,prettier,projen,ts-jest,ts-node,tsx,typescript"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @jest/globals @ncfour/projen-utils @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser commit-and-tag-version constructs eslint-config-prettier eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint jest jest-junit prettier projen ts-jest ts-node tsx typescript @ncfour/logging"
+          "exec": "pnpm update @eslint/compat @eslint/eslintrc @eslint/js @jest/globals @ncfour-us/projen-utils @stylistic/eslint-plugin @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser commit-and-tag-version constructs eslint eslint-import-resolver-typescript eslint-plugin-import globals jest jest-junit jiti prettier projen ts-jest ts-node tsx typescript @ncfour-us/logging"
         },
         {
           "exec": "pnpm exec projen"
