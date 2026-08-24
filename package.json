@@ -19,7 +19,6 @@
     "post-upgrade": "projen post-upgrade",
     "pre-compile": "projen pre-compile",
     "publish:git": "projen publish:git",
-    "publish:github": "projen publish:github",
     "publish:local": "projen publish:local",
     "release": "projen release",
     "test": "projen test",

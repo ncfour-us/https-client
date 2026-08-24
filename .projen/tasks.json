@@ -257,16 +257,6 @@
       ],
       "condition": "git log --oneline -1 | grep -v \"chore(release):\" > /dev/null && sh -c \"test \\\"$(git branch --show-current)\\\" = \\\"main\\\"\""
     },
-    "publish:github": {
-      "name": "publish:github",
-      "description": "Publish this package to GitHub Releases",
-      "steps": [
-        {
-          "exec": "gh release create $(cat dist/releasetag.txt) --notes-file dist/changelog.md --title $(cat dist/releasetag.txt) --verify-tag"
-        }
-      ],
-      "condition": "sh -c \"test -f \\\"dist/version.txt\\\" && test \\\"$(git branch --show-current)\\\" = \\\"main\\\"\""
-    },
     "publish:local": {
       "name": "publish:local",
       "steps": [
@@ -308,9 +298,6 @@
         },
         {
           "spawn": "publish:local"
-        },
-        {
-          "spawn": "publish:github"
         }
       ]
     },
