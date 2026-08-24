@@ -2,10 +2,20 @@
 
 import { test, expect } from '@jest/globals';
 
-import { HTTPSClient, HTTPSRequest, HTTPSResponse } from '../src';
+import { ILogger, createLogger } from '@ncfour-us/logging';
+import { HttpsClient, HttpsRequest, HttpsResponse } from '@ncfour-us/https-client';
+
+const logger: ILogger = createLogger('simple', {
+  json: false,
+  color: true,
+  level: 'debug',
+});
 
 test('http-client', async () => {
-  const reqOptions: HTTPSRequest = {
+  // Arrange - Given
+  const httpsClient: HttpsClient = new HttpsClient();
+
+  const reqOptions: HttpsRequest = {
     options: {
       hostname: 'www.google.com',
       // hostname: "test-userpool-01.auth.us-east-2.amazoncognito.com",
@@ -17,15 +27,20 @@ test('http-client', async () => {
     body: '',
   };
 
-  const response: HTTPSResponse = await HTTPSClient.request(reqOptions);
+  // Act - When
+  const response: HttpsResponse = await httpsClient.request(reqOptions);
 
   // console.log(`Response is: ${JSON.stringify(response, null, 2)}`);
 
+  // Assert - Then
   expect(response.metadata.statusCode).toBe(200);
 });
 
 test('http-client-unknown-site', async () => {
-  const reqOptions: HTTPSRequest = {
+  // Arrange - Given
+  const httpsClient: HttpsClient = new HttpsClient(logger);
+
+  const reqOptions: HttpsRequest = {
     options: {
       hostname: 'ncfour.us',
       port: 443,
@@ -37,8 +52,9 @@ test('http-client-unknown-site', async () => {
 
   let errorCode: number = 0;
 
+  // Act - When
   try {
-    await HTTPSClient.request(reqOptions);
+    await httpsClient.request(reqOptions);
   } catch (e: any) {
     errorCode = e.errno;
     console.log(`Type of e is ${typeof e}`);
@@ -48,5 +64,6 @@ test('http-client-unknown-site', async () => {
     console.log(e);
   }
 
+  // Assert - Then
   expect(errorCode).toBe(-3007);
 });

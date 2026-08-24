@@ -8,7 +8,7 @@ permissions-backup.acl
 /dist/version.txt
 /.mergify.yml
 /test/
-/tsconfig.dev.json
+/test/tsconfig.json
 /src/
 !/lib/
 !/lib/**/*.js
@@ -20,10 +20,16 @@ dist
 /.idea/
 /.projenrc.js
 tsconfig.tsbuildinfo
+/projenrc/tsconfig.json
 eslint.config.ts
 prettier.config.ts
 .pre-commit-config.yaml
+typedoc.json
+docs
 CHANGELOG.md
+pnpm-workspace.yaml
+/examples/tsconfig.json
+examples/lib/
 /.gitattributes
 /.projenrc.ts
 /projenrc

@@ -1,4 +1,8 @@
 {
+  "manifestVersion": 3,
+  "env": {
+    "PATH": "$(pnpm -c exec \"node --print process.env.PATH\")"
+  },
   "tasks": {
     "build": {
       "name": "build",
@@ -37,10 +41,32 @@
       },
       "steps": [
         {
-          "builtin": "release/bump-version"
+          "builtin": "release/resolve-latest-tag",
+          "outputEnv": "LATEST_TAG"
+        },
+        {
+          "spawn": "bump:releasable-commits",
+          "outputEnv": "RELEASABLE_COMMITS",
+          "condition": "git rev-parse --verify --quiet \"refs/tags/$LATEST_TAG\""
+        },
+        {
+          "builtin": "release/suggest-version-bump",
+          "outputEnv": "SUGGESTED_BUMP"
+        },
+        {
+          "builtin": "release/apply-version-bump"
         }
       ],
-      "condition": "git log --oneline -1 | grep -qv \"chore(release):\""
+      "condition": "git log --oneline -1 | grep -v \"chore(release):\" > /dev/null"
+    },
+    "bump:releasable-commits": {
+      "name": "bump:releasable-commits",
+      "description": "Print the releasable commits since the latest release",
+      "steps": [
+        {
+          "exec": "git log --oneline $LATEST_TAG..HEAD"
+        }
+      ]
     },
     "clobber": {
       "name": "clobber",
@@ -50,22 +76,35 @@
       },
       "steps": [
         {
-          "exec": "git checkout -b scratch",
+          "execArgs": [
+            "git",
+            "checkout",
+            "-b",
+            "scratch"
+          ],
           "name": "save current HEAD in \"scratch\" branch"
         },
         {
-          "exec": "git checkout $BRANCH"
+          "exec": "git checkout \"$BRANCH\""
         },
         {
-          "exec": "git fetch origin",
+          "execArgs": [
+            "git",
+            "fetch",
+            "origin"
+          ],
           "name": "fetch latest changes from origin"
         },
         {
-          "exec": "git reset --hard origin/$BRANCH",
+          "exec": "git reset --hard \"origin/$BRANCH\"",
           "name": "hard reset to origin commit"
         },
         {
-          "exec": "git clean -fdx",
+          "execArgs": [
+            "git",
+            "clean",
+            "-fdx"
+          ],
           "name": "clean all untracked files"
         },
         {
@@ -79,7 +118,23 @@
       "description": "Only compile",
       "steps": [
         {
-          "exec": "tsc --build"
+          "execArgs": [
+            "tsc",
+            "--build"
+          ]
+        }
+      ]
+    },
+    "compile:examples": {
+      "name": "compile:examples",
+      "description": "compile examples",
+      "steps": [
+        {
+          "execArgs": [
+            "tsc",
+            "--project",
+            "examples/tsconfig.json"
+          ]
         }
       ]
     },
@@ -88,7 +143,7 @@
       "description": "Synthesize project files",
       "steps": [
         {
-          "exec": "tsx --tsconfig tsconfig.dev.json .projenrc.ts"
+          "exec": "tsx --tsconfig projenrc/tsconfig.json .projenrc.ts"
         }
       ]
     },
@@ -140,16 +195,31 @@
       "description": "Creates the distribution package",
       "steps": [
         {
-          "exec": "mkdir -p dist/js"
+          "execArgs": [
+            "mkdir",
+            "-p",
+            "dist/js"
+          ]
         },
         {
-          "exec": "pnpm pack --pack-destination dist/js"
+          "execArgs": [
+            "pnpm",
+            "pack",
+            "--pack-destination",
+            "dist/js"
+          ]
         }
       ]
     },
     "post-compile": {
       "name": "post-compile",
-      "description": "Runs after successful compilation"
+      "description": "Runs after successful compilation",
+      "steps": [
+        {
+          "name": "Generate Typedoc documentation",
+          "exec": "pnpm build:docs"
+        }
+      ]
     },
     "post-upgrade": {
       "name": "post-upgrade",
@@ -176,11 +246,36 @@
           "builtin": "release/tag-version"
         },
         {
-          "exec": "cp dist/js/ncfour-us-https-client-$(cat dist/version.txt).tgz ~/.tjh-packages/.",
-          "name": "copy package to ~/.tjh-packages folder"
+          "execArgs": [
+            "git",
+            "push",
+            "--follow-tags",
+            "origin",
+            "main"
+          ]
         }
       ],
-      "condition": "git log --oneline -1 | grep -qv \"chore(release):\""
+      "condition": "git log --oneline -1 | grep -v \"chore(release):\" > /dev/null && sh -c \"test \\\"$(git branch --show-current)\\\" = \\\"main\\\"\""
+    },
+    "publish:github": {
+      "name": "publish:github",
+      "description": "Publish this package to GitHub Releases",
+      "steps": [
+        {
+          "exec": "gh release create $(cat dist/releasetag.txt) --notes-file dist/changelog.md --title $(cat dist/releasetag.txt) --verify-tag"
+        }
+      ],
+      "condition": "sh -c \"test -f \\\"dist/version.txt\\\" && test \\\"$(git branch --show-current)\\\" = \\\"main\\\"\""
+    },
+    "publish:local": {
+      "name": "publish:local",
+      "steps": [
+        {
+          "name": "copy package to ~/.tjh-packages folder (dryrun: false)",
+          "exec": "cp dist/js/ncfour-us-https-client-$(cat dist/version.txt).tgz ~/.tjh-packages/."
+        }
+      ],
+      "condition": "sh -c \"test -f \\\"dist/version.txt\\\" && test \\\"$(git branch --show-current)\\\" = \\\"main\\\"\""
     },
     "release": {
       "name": "release",
@@ -190,7 +285,11 @@
       },
       "steps": [
         {
-          "exec": "rm -fr dist"
+          "execArgs": [
+            "rm",
+            "-fr",
+            "dist"
+          ]
         },
         {
           "spawn": "bump"
@@ -206,6 +305,12 @@
         },
         {
           "spawn": "publish:git"
+        },
+        {
+          "spawn": "publish:local"
+        },
+        {
+          "spawn": "publish:github"
         }
       ]
     },
@@ -217,7 +322,11 @@
       },
       "steps": [
         {
-          "exec": "jest --passWithNoTests --updateSnapshot",
+          "execArgs": [
+            "jest",
+            "--passWithNoTests",
+            "--updateSnapshot"
+          ],
           "receiveArgs": true
         },
         {
@@ -230,7 +339,10 @@
       "description": "Run jest in watch mode",
       "steps": [
         {
-          "exec": "jest --watch"
+          "execArgs": [
+            "jest",
+            "--watch"
+          ]
         }
       ]
     },
@@ -259,13 +371,54 @@
       },
       "steps": [
         {
-          "exec": "pnpm dlx npm-check-updates@20 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@eslint/compat,@eslint/eslintrc,@eslint/js,@jest/globals,@ncfour-us/projen-utils,@stylistic/eslint-plugin,@types/jest,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,eslint,eslint-import-resolver-typescript,eslint-plugin-import,globals,jest,jiti,prettier,projen,ts-jest,ts-node,tsx,typescript"
+          "execArgs": [
+            "pnpm",
+            "dlx",
+            "npm-check-updates@20",
+            "--upgrade",
+            "--target=minor",
+            "--peer",
+            "--no-deprecated",
+            "--dep=dev,prod,peer,optional",
+            "--filter=@eslint/compat,@eslint/eslintrc,@eslint/js,@jest/globals,@ncfour-us/projen-utils,@stylistic/eslint-plugin,@types/jest,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,eslint,eslint-import-resolver-typescript,eslint-plugin-import,globals,jest,jiti,prettier,projen,ts-jest,ts-node,tsx,typedoc,typedoc-plugin-markdown,typescript"
+          ]
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @eslint/compat @eslint/eslintrc @eslint/js @jest/globals @ncfour-us/projen-utils @stylistic/eslint-plugin @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser commit-and-tag-version constructs eslint eslint-import-resolver-typescript eslint-plugin-import globals jest jest-junit jiti prettier projen ts-jest ts-node tsx typescript @ncfour-us/logging"
+          "execArgs": [
+            "pnpm",
+            "update",
+            "@eslint/compat",
+            "@eslint/eslintrc",
+            "@eslint/js",
+            "@jest/globals",
+            "@ncfour-us/projen-utils",
+            "@stylistic/eslint-plugin",
+            "@types/jest",
+            "@types/node",
+            "@typescript-eslint/eslint-plugin",
+            "@typescript-eslint/parser",
+            "commit-and-tag-version",
+            "constructs",
+            "eslint",
+            "eslint-import-resolver-typescript",
+            "eslint-plugin-import",
+            "globals",
+            "jest",
+            "jest-junit",
+            "jiti",
+            "prettier",
+            "projen",
+            "ts-jest",
+            "ts-node",
+            "tsx",
+            "typedoc",
+            "typedoc-plugin-markdown",
+            "typescript",
+            "@ncfour-us/logging"
+          ]
         },
         {
           "exec": "pnpm exec projen"
@@ -280,13 +433,14 @@
       "description": "Watch & compile in the background",
       "steps": [
         {
-          "exec": "tsc --build -w"
+          "execArgs": [
+            "tsc",
+            "--build",
+            "-w"
+          ]
         }
       ]
     }
-  },
-  "env": {
-    "PATH": "$(pnpm -c exec \"node --print process.env.PATH\")"
   },
   "//": "~~ Generated by projen. To modify, edit .projenrc.ts and run \"pnpm exec projen\"."
 }

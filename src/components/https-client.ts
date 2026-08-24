@@ -1,37 +1,89 @@
 // Copyright (c) 2024 Tim Hahn
 
 import * as https from 'node:https';
-import { ILogger, createLogger } from '@ncfour-us/logging';
+import { ILogger } from '@ncfour-us/logging';
 
-export interface HTTPSRequest {
+/**
+ * HTTPS Request options
+ *
+ * body contains the body of the request.
+ * options contains options to pass to the https:request call.
+ */
+export interface HttpsRequest {
+  /**
+   * The request body to send on the HTTPS request
+   */
   body: string;
+
+  /**
+   * Options for the HTTPS request, including any HTTP headers
+   */
   options: any;
 }
 
-export interface HTTPSResponse {
+/**
+ * HTTPS Response data
+ *
+ * body contains the body of the response. (only if metadata.statusCode is 200 (OK))
+ * metadata contains the result of the request
+ */
+export interface HttpsResponse {
+  /**
+   * The response body received (if metadata.statusCode is 200 (OK))
+   */
   body: string;
+
+  /**
+   * HTTPS resopnse metadata, including any HTTP headers
+   */
   metadata: {
+    /**
+     * HTTP status code received in response to the request
+     */
     statusCode: number;
+
+    /**
+     * HTTP status message received in response to the request
+     */
     statusMessage: string;
+
+    /**
+     * HTTP headers received in the response
+     */
     headers: object;
   };
 }
 
-export class HTTPSClient {
-  public static async request(reqOptions: HTTPSRequest): Promise<HTTPSResponse> {
-    const logger: ILogger = await createLogger('simple', {
-      name: 'HTTPSClient',
-      level: 'debug',
-      json: false,
-    });
+export class HttpsClient {
+  // dependencies
+  private logger?: ILogger;
 
-    logger.log(
+  /**
+   * Creates a new HttpClient instance.
+   *
+   * @param logger optional ILogger logger for the HttpClient instance to use.
+   */
+  constructor(logger?: ILogger) {
+    this.logger = logger;
+  }
+
+  /**
+   * Perform and asynchronous HTTPS request and return the response.
+   *
+   * If the response metadata.statusCode is 200 (OK) then the body of the response
+   * contains the body of the HTTPS response.
+   *
+   * @param reqOptions
+   * @returns the response from making the HTTPS request.
+   */
+  public async request(reqOptions: HttpsRequest): Promise<HttpsResponse> {
+    this.logger?.log(
       'debug',
       `request body.length: ${reqOptions.body.length}, options: ${JSON.stringify(reqOptions.options, null, 2)}`,
     );
 
-    const responsePromise = new Promise<HTTPSResponse>((resolve, reject) => {
-      let response: HTTPSResponse = {
+    const responsePromise = new Promise<HttpsResponse>((resolve, reject) => {
+      let response: HttpsResponse = {
         metadata: {
           statusCode: 404,
           statusMessage: '',
@@ -50,7 +102,7 @@ export class HTTPSClient {
         });
 
         res.on('end', () => {
-          logger.log(
+          this.logger?.log(
             'debug',
             `response body.length:${response.body.length}, metadata: ${JSON.stringify(response.metadata, null, 2)}`,
           );
@@ -60,6 +112,7 @@ export class HTTPSClient {
       });
 
       req.on('error', (e) => {
+        this.logger?.log('error', `error from HttpsClient.request(): ${e}`);
         reject(e);
       });
 
@@ -69,7 +122,7 @@ export class HTTPSClient {
         reqOptions.options.method !== 'GET' &&
         reqOptions.options.method !== 'OPTIONS'
       ) {
-        logger.log('debug', `writing body, body.length:${reqOptions.body.length}`);
+        this.logger?.log('debug', `writing body, body.length:${reqOptions.body.length}`);
 
         req.write(reqOptions.body);
       }

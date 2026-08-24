@@ -1,4 +1,8 @@
-import { TypeScriptESMProject, RepoBuildPackageModel } from '@ncfour-us/projen-utils';
+import {
+  TypeScriptESMProject,
+  RepoBuildPackageModel,
+  sampleReadmeProps,
+} from '@ncfour-us/projen-utils';
 import { javascript } from 'projen';
 
 const project = new TypeScriptESMProject({
@@ -35,8 +39,32 @@ const project = new TypeScriptESMProject({
   eslintFlatConfig: true,
   prettierFlatConfig: true,
   precommitConfig: true,
+  pnpmWorkspace: true,
+  examplesFolder: true,
 
-  repoBuildPackageModel: RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY,
+  repoBuildPackageModel: RepoBuildPackageModel.LOCAL_BUILD_PACKAGE,
   localPackageArchiveDir: '~/.tjh-packages',
+  releaseToLocal: true,
+
+  docsIndex: true,
+  apiDocumentation: true,
+  apiEntryPoints: ['src/index.ts'],
+
+  readme: sampleReadmeProps({
+    namespace: '@ncfour-us',
+    project: 'https-client',
+    author: 'Tim Hahn',
+    authorEmail: 'hahntj@gmail.com',
+    authorGithubUser: 'climbertjh',
+    license: 'MIT',
+  }),
 });
+
+// mark the entry points to the module
+project.addFields({
+  exports: {
+    '.': './lib/index.js',
+  },
+});
+
 project.synth();

@@ -1,3 +1,3 @@
 // Copyright (c) 2024 Tim Hahn
 
-export { HTTPSClient, HTTPSRequest, HTTPSResponse } from './components/https-client.js';
+export { HttpsClient, HttpsRequest, HttpsResponse } from './components/https-client.js';

@@ -38,9 +38,14 @@ junit.xml
 !/.github/pull_request_template.md
 !/test/
 !/tsconfig.json
-!/tsconfig.dev.json
+!/test/tsconfig.json
 !/src/
 /lib
 /dist/
+!/projenrc/tsconfig.json
 !/.pre-commit-config.yaml
+!/typedoc.json
+!/pnpm-workspace.yaml
+!/examples/tsconfig.json
+examples/lib/
 !/.projenrc.ts
