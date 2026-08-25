@@ -114,7 +114,6 @@
     },
     {
       "name": "@ncfour-us/logging",
-      "version": "file:/home/tjh/.tjh-packages/ncfour-us-logging-0.0.2.tgz",
       "type": "runtime"
     }
   ],

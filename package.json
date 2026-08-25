@@ -2,7 +2,7 @@
   "name": "@ncfour-us/https-client",
   "repository": {
     "type": "git",
-    "url": "https://github.com/hahntj/ncfour/https-client.git"
+    "url": "https://github.com/ncfour-us/https-client.git"
   },
   "scripts": {
     "build": "projen build",

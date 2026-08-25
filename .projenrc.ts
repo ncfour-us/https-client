@@ -14,7 +14,7 @@ const project = new TypeScriptESMProject({
   packageManager: javascript.NodePackageManager.PNPM,
   projenrcTs: true,
 
-  repository: 'https://github.com/hahntj/ncfour/https-client.git',
+  repository: 'https://github.com/ncfour-us/https-client.git',
 
   // set up the package name in package.json
   packageName: '@ncfour-us/https-client',
@@ -31,7 +31,7 @@ const project = new TypeScriptESMProject({
   },
 
   devDeps: ['@ncfour-us/projen-utils', '@jest/globals'],
-  deps: ['@ncfour-us/logging@file:/home/tjh/.tjh-packages/ncfour-us-logging-0.0.2.tgz'],
+  deps: ['@ncfour-us/logging'],
   // deps: [],                /* Runtime dependencies of this module. */
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
   // packageName: undefined,  /* The "name" in package.json. */
