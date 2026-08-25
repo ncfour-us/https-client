@@ -1,4 +1,11 @@
 
+## [0.0.4](https://github.com/ncfour-us/https-client/compare/v0.0.3...v0.0.4) (2026-08-25)
+
+
+### Bug Fixes
+
+* fix repository name in projenrc.ts, switch to @ncfour-us/logging from NPMJS ([f5101c6](https://github.com/ncfour-us/https-client/commit/f5101c6931bfab097b00c84146b262126825abbf))
+
 ## [0.0.3](https://github.com/hahntj/ncfour/https-client/compare/v0.0.2...v0.0.3) (2026-08-24)
 
 
