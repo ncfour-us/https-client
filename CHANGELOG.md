@@ -1,4 +1,11 @@
 
+## [0.1.1](https://github.com/ncfour-us/https-client/compare/v0.1.0...v0.1.1) (2026-08-27)
+
+
+### Bug Fixes
+
+* minor documentation update ([45be2ab](https://github.com/ncfour-us/https-client/commit/45be2ab6bb80275d7997f02ad56acd3e0ab10192))
+
 ## [0.1.0](https://github.com/ncfour-us/https-client/compare/v0.0.7...v0.1.0) (2026-08-27)
 
 
