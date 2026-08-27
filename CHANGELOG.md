@@ -1,4 +1,6 @@
 
+## [0.0.6](https://github.com/ncfour-us/https-client/compare/v0.0.5...v0.0.6) (2026-08-27)
+
 ## [0.0.5](https://github.com/ncfour-us/https-client/compare/v0.0.4...v0.0.5) (2026-08-27)
 
 
