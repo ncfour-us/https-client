@@ -1,4 +1,11 @@
 
+## [0.0.5](https://github.com/ncfour-us/https-client/compare/v0.0.4...v0.0.5) (2026-08-27)
+
+
+### Features
+
+* initial publish to NPMJS and Github ([64c40e8](https://github.com/ncfour-us/https-client/commit/64c40e857875a8620e3aaa0844efe7d409f572f6))
+
 ## [0.0.4](https://github.com/ncfour-us/https-client/compare/v0.0.3...v0.0.4) (2026-08-25)
 
 
