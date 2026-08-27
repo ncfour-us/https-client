@@ -11,8 +11,10 @@
 ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues-raw/ncfour-us/https-client?logo=github)
 ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues-pr/ncfour-us/https-client?logo=github)
 
+<!--
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/ncfour-us/https-client/release.yml?label=release&logo=github)
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/ncfour-us/https-client/upgrade-main.yml?label=upgrade-main&logo=github)
+-->
 
 ![NPM Version](https://img.shields.io/npm/v/%40ncfour-us%2Fhttps-client?logo=npm)
 ![NPM Last Update](https://img.shields.io/npm/last-update/%40ncfour-us%2Fhttps-client?logo=npm)
@@ -32,12 +34,15 @@
 Install using `npm`, `yarn`, or `pnpm` (preferred).
 
 ```bash
-pnpm add --save-dev @ncfour-us/https-client
+pnpm add @ncfour-us/https-client
 ```
 
 **TODO:** Enter additional installation instructions here.
 
 ## Getting Started
+
+> More detailed documentation for this project is found at
+> [@ncfour-us/logging](https://ncfour-us.github.io/https-client/).
 
 **TODO:** Enter information here to document the project.
 

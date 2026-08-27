@@ -45,7 +45,8 @@ const project = new TypeScriptESMProject({
   repoBuildPackageModel: RepoBuildPackageModel.LOCAL_BUILD_PACKAGE,
   localPackageArchiveDir: '~/.tjh-packages',
   releaseToLocal: true,
-  releaseToGithub: false,
+  releaseToNpm: true,
+  releaseToGithub: true,
 
   docsIndex: true,
   apiDocumentation: true,
