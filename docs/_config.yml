@@ -8,7 +8,7 @@ remote_theme: pages-themes/slate@v0.2.0
 plugins:
 - jekyll-remote-theme # add this line to the plugins list if you already have one
 
-title: "@ncfour-us/https-client"
+title: "@ncfour-us/https-client NPM Package"
 description: "A simplifed means of making HTTPS requests using a asynchronous request method."
 
 show_downloads: true
