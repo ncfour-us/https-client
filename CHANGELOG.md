@@ -1,4 +1,15 @@
 
+## [0.1.0](https://github.com/ncfour-us/https-client/compare/v0.0.7...v0.1.0) (2026-08-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* re-factor HttpsClient constructor to take a HttpsClientOptions parameter
+
+### Features
+
+* re-factor HttpsClient constructor to take a HttpsClientOptions parameter ([57d1b5d](https://github.com/ncfour-us/https-client/commit/57d1b5d9ebaeb4b382d77371fb48a110878ec2e5))
+
 ## [0.0.7](https://github.com/ncfour-us/https-client/compare/v0.0.6...v0.0.7) (2026-08-27)
 
 
