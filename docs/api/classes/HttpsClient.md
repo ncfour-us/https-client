@@ -6,17 +6,15 @@
 
 ### Constructor
 
-> **new HttpsClient**(`logger?`): `HttpsClient`
+> **new HttpsClient**(`options?`): `HttpsClient`
 
 Creates a new HttpClient instance.
 
 #### Parameters
 
-##### logger?
+##### options?
 
-`ILogger`
-
-optional ILogger logger for the HttpClient instance to use.
+[`HttpsClientOptions`](../interfaces/HttpsClientOptions.md)
 
 #### Returns
 

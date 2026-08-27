@@ -13,7 +13,9 @@ const myLogger: ILogger = createLogger('simple', {
   level: 'trace',
 });
 
-const myHttpClient = new HttpsClient(myLogger);
+const myHttpClient = new HttpsClient({
+  logger: myLogger,
+});
 
 try {
   const response: HttpsResponse = await myHttpClient.request({

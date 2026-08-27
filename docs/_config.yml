@@ -8,7 +8,7 @@ remote_theme: pages-themes/slate@v0.2.0
 plugins:
 - jekyll-remote-theme # add this line to the plugins list if you already have one
 
-title: "TODO: enter title here"
-description: "TODO: enter description here"
+title: "@ncfour-us/https-client"
+description: "A simplifed means of making HTTPS requests using a asynchronous request method."
 
 show_downloads: true

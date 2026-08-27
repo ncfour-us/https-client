@@ -6,5 +6,6 @@
 
 ## Interfaces
 
+- [HttpsClientOptions](interfaces/HttpsClientOptions.md)
 - [HttpsRequest](interfaces/HttpsRequest.md)
 - [HttpsResponse](interfaces/HttpsResponse.md)

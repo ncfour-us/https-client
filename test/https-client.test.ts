@@ -38,7 +38,9 @@ test('http-client', async () => {
 
 test('http-client-unknown-site', async () => {
   // Arrange - Given
-  const httpsClient: HttpsClient = new HttpsClient(logger);
+  const httpsClient: HttpsClient = new HttpsClient({
+    logger: logger,
+  });
 
   const reqOptions: HttpsRequest = {
     options: {

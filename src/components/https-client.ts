@@ -54,6 +54,16 @@ export interface HttpsResponse {
   };
 }
 
+/**
+ * Options for instantiating an Https Client
+ */
+export interface HttpsClientOptions {
+  /**
+   * optional ILogger instance for the Https Client to use.
+   */
+  logger?: ILogger;
+}
+
 export class HttpsClient {
   // dependencies
   private logger?: ILogger;
@@ -63,8 +73,8 @@ export class HttpsClient {
    *
    * @param logger optional ILogger logger for the HttpClient instance to use.
    */
-  constructor(logger?: ILogger) {
-    this.logger = logger;
+  constructor(options?: HttpsClientOptions) {
+    this.logger = options?.logger;
   }
 
   /**
