@@ -42,7 +42,7 @@ pnpm add @ncfour-us/https-client
 ## Getting Started
 
 > More detailed documentation for this project is found at
-> [@ncfour-us/logging](https://ncfour-us.github.io/https-client/).
+> [@ncfour-us/https-client](https://ncfour-us.github.io/https-client/).
 
 **TODO:** Enter information here to document the project.
 
