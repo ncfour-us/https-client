@@ -1,4 +1,11 @@
 
+## [0.0.7](https://github.com/ncfour-us/https-client/compare/v0.0.6...v0.0.7) (2026-08-27)
+
+
+### Bug Fixes
+
+* update README.md ([bb78966](https://github.com/ncfour-us/https-client/commit/bb789669c1d50150d0d9a23c51476ad38ea39f4e))
+
 ## [0.0.6](https://github.com/ncfour-us/https-client/compare/v0.0.5...v0.0.6) (2026-08-27)
 
 ## [0.0.5](https://github.com/ncfour-us/https-client/compare/v0.0.4...v0.0.5) (2026-08-27)
